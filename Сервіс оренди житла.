@@ -1,0 +1,146 @@
+#include <iostream>
+#include <vector>
+#include <string>
+
+// Account information class
+class Account {
+private:
+    std::string username;
+    std::string password;
+
+public:
+    Account(const std::string& username, const std::string& password) : username(username), password(password) {}
+
+    std::string getUsername() const {
+        return username;
+    }
+
+    std::string getPassword() const {
+        return password;
+    }
+};
+
+// Order class
+class Order {
+private:
+    std::string item;
+    std::string status;
+
+public:
+    Order(const std::string& item, const std::string& status) : item(item), status(status) {}
+
+    std::string getItem() const {
+        return item;
+    }
+
+    std::string getStatus() const {
+        return status;
+    }
+};
+
+// Housing Rental Service class
+class HousingRentalService {
+private:
+    Account currentAccount;
+    std::vector<Order> orderHistory;
+    std::vector<Order> currentOrders;
+
+public:
+    HousingRentalService() : currentAccount("", "") {}
+
+    void createAccount(const std::string& username, const std::string& password) {
+        currentAccount = Account(username, password);
+        std::cout << "Account created successfully!\n";
+    }
+
+    void viewAccountInformation() {
+        if (currentAccount.getUsername().empty()) {
+            std::cout << "No account found. Please create an account first.\n";
+            return;
+        }
+
+        std::cout << "Username: " << currentAccount.getUsername() << "\n";
+    }
+
+    void viewOrderHistory() {
+        if (orderHistory.empty()) {
+            std::cout << "No order history found.\n";
+            return;
+        }
+
+        std::cout << "Order History:\n";
+        for (const auto& order : orderHistory) {
+            std::cout << "Item: " << order.getItem() << ", Status: " << order.getStatus() << "\n";
+        }
+    }
+
+    void viewCurrentOrders() {
+        if (currentOrders.empty()) {
+            std::cout << "No current orders found.\n";
+            return;
+        }
+
+        std::cout << "Current Orders:\n";
+        for (const auto& order : currentOrders) {
+            std::cout << "Item: " << order.getItem() << ", Status: " << order.getStatus() << "\n";
+        }
+    }
+
+    void evaluateHousing() {
+        std::cout << "Please provide your evaluation for the housing:\n";
+        // Add code here to handle the evaluation process
+    }
+
+    void customMenu() {
+        int choice;
+        while (true) {
+            std::cout << "\n--- Custom Menu ---\n";
+            std::cout << "1. Create Account\n";
+            std::cout << "2. View Account Information\n";
+            std::cout << "3. View Order History\n";
+            std::cout << "4. View Current Orders\n";
+            std::cout << "5. Evaluate Housing\n";
+            std::cout << "6. Exit\n";
+            std::cout << "Enter your choice: ";
+            std::cin >> choice;
+
+            switch (choice) {
+                case 1: {
+                    std::string username, password;
+                    std::cout << "Enter username: ";
+                    std::cin >> username;
+                    std::cout << "Enter password: ";
+                    std::cin >> password;
+                    createAccount(username, password);
+                    break;
+                }
+                case 2:
+                    viewAccountInformation();
+                    break;
+                case 3:
+                    viewOrderHistory();
+                    break;
+                case 4:
+                    viewCurrentOrders();
+                    break;
+                case 5:
+                    evaluateHousing();
+                    break;
+                case 6:
+                    std::cout << "Exiting...\n";
+                    return;
+                default:
+                    std::cout << "Invalid choice. Please try again.\n";
+                    break;
+            }
+        }
+    }
+};
+
+// Main function
+int main() {
+    HousingRentalService service;
+    service.customMenu();
+
+    return 0;
+}
